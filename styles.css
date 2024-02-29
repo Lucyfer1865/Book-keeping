@@ -2,12 +2,53 @@ nav ul li{
     display: inline;
     margin: auto;
 }
+
+nav ul{
+    display: inline;
+    margin: auto;
+}
+
 a{
     text-decoration: none;
     color: red;
     padding: 10px;
 }
 
-.categ{
-    background-color: aqua;
+.categories{
+    display: inline;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px;
+
+}
+
+.category{
+    background-color: lightsalmon;
+    margin: 5px;
+}
+
+h1{
+    display: inline;
+}
+
+.h_container{
+    display: inline;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px;
+    margin: 0px;
+    
+}
+
+.btn{
+    background: transparent;
+    border: none;
+    margin: 0px;
+    font-size: 25px;
+    outline: none;
+    color: grey;
+}
+
+.btn i:hover{
+    cursor: pointer;
 }
