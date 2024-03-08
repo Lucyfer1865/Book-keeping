@@ -174,7 +174,7 @@ header {
 }
 
 #book-month {
-  height: 70%;
+  height: 70%; 
 }
 
 /* --------------------------------------------------Book Container-------------------------------------------- */
@@ -503,6 +503,12 @@ footer {
   .options li {
     box-sizing: border-box;
     padding: 10px;
+  }
+  .email{
+      display: flex;
+      justify-content: center;
+      align-items: center;
+ 
   }
 }
 @media (max-width: 1085px) {
