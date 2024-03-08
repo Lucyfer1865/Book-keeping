@@ -4,34 +4,125 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet">
 
     <link rel="stylesheet" href="/styles.css">
     <script src="/script.js" defer></script>
     <script src="https://kit.fontawesome.com/f718db9c7b.js" crossorigin="anonymous"></script>
-
-    <title>Books</title>
+    
+    <link rel="icon" type="image/png" href="Images/FaviCon.png">
+    <title>MyBookList</title>
 </head>
 <body>
     <header>
-        <nav>
-            <h1><a href="/index.html">Book Keeper</a></h1>
-            <ul>
-                <li><a href="/index.html">Home</a></li>
-                <li><button id="liked">Favourites</button></li>
-            </ul>
-            <input type="text" id="search-input" placeholder="Enter book name or author">
-        </nav>   
+        <a href="index.html"><img id="logo" src="Images/MyBookList.png"></a>
+        <ul id="head-option" class="options">
+            <li><button class="nav-btns home">Home</button></li>
+            <li><button class="nav-btns browse">Browse</button></li>
+            <li><button class="nav-btns liked">Favourites</button></li>            
+        </ul>
+        <input type="text" id="search-input" placeholder="Search">
+        
     </header>
 
     <main>
         <section>
-            <h2>Books</h2>
-            <ul class="books-container" id="main"></ul>
+            <div class="filler"></div>
+
+            <div id="dropdown">
+                <ul class="options">
+                    <li><button class="nav-btns home">Home</button></li>
+                    <li><button class="nav-btns browse">Browse</button></li>
+                    <li><button class="nav-btns liked">Favourites</button></li>            
+                </ul>
+            </div>
+
+            <div class="page">
+                <div id="page-text">
+                    <div class="page-title">
+                        <h1>Editor's Choice</h1> <img src="Images/blue-tick.png" alt="Editor's Choice">
+                    </div>
+                    <h3>Unearth a literary treasure with our top pick.</h3>
+                    <p>Our featured book is a testament to literary excellence. Don't miss out—immerse yourself in the magic within these pages.</p>
+                    <button class="browse">Discover Now</button>
+                </div>
+                <img id="book-month" src="Images/book-of-month.png">
+            </div>
+            
+            <div id="heading">
+                <h1>Browse Books<h1>
+            </div>
+
+            <div class="books-container" id="main"></div>
+
+            <div class="page-btns">
+                <img src="Images/prev.png" id="previous-btn">
+                <img src="Images/next.png" id="next-btn">
+            </div>
+
+            <div class="features">
+                <div class="widget" id="search-books">
+                    <img class="icon" src="Images/Icons/Search.png">
+                    <div class="widget-text">
+                        <h3>Search for books</h3>
+
+                    </div>
+                </div>
+                <div class="widget" id="track">
+                    <img class="icon" src="Images/Icons/Track.png">
+                    <div class="widget-text">
+                        <h3>Track your books</h3>
+
+                    </div>
+                </div>
+                <div class="widget" id="give-feedback">
+                    <img class="icon" src="Images/Icons/Feedback.png">
+                    <div class="widget-text">
+                        <h3>Give us feedback</h3>
+                    </div>
+                </div>
+            </div>
+
+            <div class="get-updates">
+                <div id="update-text">
+                    <h2>Join Us and Get Updates</h2>
+                    <p>Sign up for exclusive offers, latest news and updates.</p>
+                </div>
+
+                <div class="email">
+                    <input type="email" id="email-input" placeholder="Enter email"><button id="email-submit">Submit</button>
+                </div>
+            </div>
         </section>
     </main>
-
+    <hr>
     <footer>
-        <p>Books &copy; 2024</p>
+        <div class="upper">
+            <img id="footer-logo" src="Images/MyBookList.png">      
+            <div id="know-us">
+                <h2 class="heading">Get to Know Us</h2>
+                <ul>
+                    <li>About Us</li>
+                    <li>Contact Us</li>
+                    <li>Careers</li>
+                </ul>
+            </div>
+
+            <div id="contact">
+                <h2 class="heading">Contact</h2>
+                <ul>
+                    <li>Phone: +91 9xxxxxxxxx</li>
+                    <li>Email: mybooklist@example.com</li>
+                    <li>xyz Bits Pilani</li>
+                </ul>
+            </div>
+        </div>
+        
+        <div class="lower">
+            MyBookList &copy;2024
+        </div>
     </footer>
 </body>
 </html>

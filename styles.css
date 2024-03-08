@@ -1,54 +1,522 @@
-nav ul li{
-    display: inline;
-    margin: auto;
+* {
+  margin: 0px;
+  padding: 0px;
+  box-sizing: border-box;
 }
 
-nav ul{
-    display: inline;
-    margin: auto;
+body {
+  background-color: white;
 }
 
-a{
-    text-decoration: none;
-    color: red;
-    padding: 10px;
+/* ----------------------------------------------Header------------------------------------------------------ */
+
+header {
+  background-color: white;
+  justify-content: space-between;
+  align-items: center;
+  position: fixed;
+  margin: 0px;
+  padding: 0px;
+  height: 120px;
+  width: 100%;
+  left: 0;
+  top: 0;
+  z-index: 999;
+  display: flex;
+  flex-wrap: nowrap;
 }
 
-.categories{
-    display: inline;
-    justify-content: space-between;
+#logo {
+  display: flex;
+  margin: 10px;
+  width: 300px;
+}
+
+.options {
+  display: flex;
+  flex-wrap: nowrap;
+}
+
+.options li {
+  display: inline;
+  padding: 40px;
+  flex: 0 0 auto;
+}
+
+.nav-btns {
+  position: relative;
+  background: none;
+  color: inherit;
+  border: none;
+  padding: 10px;
+  padding-left: 15px;
+  padding-right: 15px;
+  font: inherit;
+  cursor: pointer;
+  outline: inherit;
+  background-color: none;
+  flex: 2 0 auto;
+  transition: color 0.3s ease;
+  z-index: 420;
+}
+
+.nav-btns:hover {
+  color: hsl(81, 29%, 39%);
+}
+
+.nav-btns::after {
+  content: "";
+  position: absolute;
+  width: 0;
+  height: 2px;
+  bottom: 0;
+  left: 0;
+  background-color: #f0f0f0;
+  transition: width 0.3s;
+}
+
+.nav-btns:hover::after {
+  width: 100%;
+}
+
+#search-input {
+  display: inline;
+  padding: 10px;
+  margin: 10px;
+  min-width: 227px;
+  height: 40%;
+  border-radius: 30px;
+  background-color: white;
+  background-image: url("Images/search.png");
+  background-repeat: no-repeat;
+  background-position: right 10px center;
+  border: 0.5px solid #7a7a7a;
+  flex: 0.5 1 auto;
+}
+
+#dropdown {
+  display: none;
+}
+
+#main {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+  margin: 0px;
+  padding: 0px;
+}
+/* ----------------------------------------------------Home--------------------------------------------------- */
+.page {
+  display: flex;
+  flex-wrap: wrap-reverse;
+  justify-content: center;
+  align-items: center;
+  height: 693px;
+  margin: auto;
+  padding: 0px;
+  width: 100%;
+  position: relative;
+  top: 0;
+  background-color: #f0f0f0;
+}
+
+#page-text {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start;
+  max-width: 500px;
+}
+
+.page-title {
+  display: flex;
+  align-items: center;
+}
+
+#page-text h1 {
+  font-size: 2.5em;
+  margin-bottom: 20px;
+  display: flex;
+  align-items: flex-start;
+}
+
+#page-text img {
+  height: 3em;
+  margin-left: 10px;
+  margin-bottom: 20px;
+}
+
+#page-text h3 {
+  font-size: 2em;
+  margin-bottom: 20px;
+}
+
+#page-text p {
+  flex-wrap: wrap;
+  width: 100%;
+  line-height: 1.5;
+  margin-bottom: 20px;
+  color: darkgray;
+}
+#page-text button {
+  margin: 20px;
+  padding: 10px 20px;
+  background-color: #007bff;
+  color: #fff;
+  border: none;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+#page-text button:hover {
+  background-color: #0056b3;
+}
+
+#book-month {
+  height: 70%;
+}
+
+/* --------------------------------------------------Book Container-------------------------------------------- */
+#heading {
+  text-align: center;
+  font-size: 2em;
+  margin: 30px;
+}
+
+/* ---------------------general book------------------------ */
+.book {
+  display: flex;
+  height: 267px;
+  width: 655px;
+  margin: 10px;
+  padding: 20px;
+  border: black 1px solid;
+  background-color: white;
+  border-radius: 10px;
+  justify-content: space-between;
+}
+.book-details {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 10px;
+  margin: 10px;
+  flex-grow: 1;
+  overflow: hidden;
+}
+
+.book-cover {
+  padding: 10px;
+  width: 150px;
+  height: 225px;
+  object-fit: cover;
+}
+
+.book-info {
+  display: flex;
+  flex-direction: column;
+  margin-left: 20px;
+  line-height: 1.5;
+  text-align: left;
+  flex-grow: 1;
+  overflow: auto;
+  justify-content: space-between; 
+  align-items: space-between; 
+  padding-top:10px;
+}
+
+
+.text {
+  display: flex;
+  justify-content: flex-start;
+}
+.author {
+  font-style: italic;
+}
+.categories {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.category {
+  background-color: #007bff;
+  margin: 5px;
+  color: white;
+  padding: 5px;
+  border-radius: 20px;
+  cursor: pointer;
+}
+
+/* --------------------book btns-------------------- */
+.container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.h_container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 10px;
+  margin-bottom: 20px;
+}
+
+.like-btn {
+  background: transparent;
+  border: none;
+  margin: 0px;
+  font-size: 25px;
+  outline: none;
+  color: #f0f0f0;
+}
+
+.like-btn i:hover {
+  cursor: pointer;
+}
+
+.like-btn, .buy-btn {
+  background: transparent;
+  border: none;
+  margin: 0px;
+  outline: none;
+  cursor: pointer;
+}
+
+.buy-btn {
+  background-color: #007bff;
+  color: #f0f0f0;
+  padding: 10px 20px;
+  border-radius: 5px;
+  transition: background-color 0.3s ease;
+  text-decoration: none;
+}
+
+.buy-btn:hover {
+  background-color: #0056b3;
+}
+
+.empty{
+  margin:30px;
+}
+
+/* --------Page Buttons---------- */
+
+.page-btns {
+  display: flex;
+  justify-content: center;
+  padding:10px;
+}
+
+#previous-btn {
+  background: none;
+  border:none;
+  margin: 10px;
+  padding:15px;
+  cursor: pointer;
+}
+#next-btn {
+  background: none;
+  border:none;
+  margin: 10px;
+  padding:15px;
+  cursor: pointer;
+}
+/* --------------------------------------------Features---------------------------------------------- */
+
+.features {
+  display: flex;
+  background-color: #f0f0f0;
+  justify-content: space-around;
+  align-items: center;
+  padding: 40px;
+  height: auto;
+}
+
+.widget {
+  border: 0.5px grey solid;
+  background-color: #fff;
+  padding: 20px;
+  border-radius: 10px;
+  width: 30%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.widget-text {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.icon {
+  max-width: 50%;
+  object-fit: contain;
+  display: block;
+  margin: auto;
+}
+
+/* -------------------------------------------Email Section-------------------------------------- */
+
+.get-updates {
+  display: flex;
+  background-color: white;
+  justify-content: space-around;
+  align-items: center;
+  padding: 40px;
+  height: auto;
+  flex-wrap: wrap;
+}
+
+#update-text {
+  font-size: 1.2em;
+  color: #333;
+  margin-right: 20px;
+  text-align: center;
+  line-height: 2em;
+}
+
+#email-input {
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 20px;
+  font-size: 1em;
+  width: 200px;
+}
+
+#email-submit {
+  background-color: #0056b3;
+  border: none;
+  color: white;
+  padding: 10px 32px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  margin: 4px 2px;
+  cursor: pointer;
+  border-radius: 20px;
+}
+
+/*------------------------------------------------ Footer elements -----------------------------------------*/
+footer {
+  background-color: white;
+  margin: 0px;
+  padding: 20px;
+  height: auto;
+  width: 100%;
+  left: 0;
+  position: relative;
+  bottom: 0;
+  z-index: 99;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.upper {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+  flex-wrap: wrap;
+}
+
+.upper ul {
+  list-style-type: none;
+  padding: 0;
+}
+
+.upper ul li {
+  margin: 10px 10px;
+}
+
+#footer-logo {
+  display: inline;
+  margin: 10px;
+  width: 300px;
+}
+
+.lower {
+  display: block;
+  text-align: center;
+  margin-top: 20px;
+}
+
+/* -----------------------------------------------------Media Queries ----------------------------------------------*/
+
+@media (max-width: 1112px) {
+  #book-month {
+    max-height: 50vh;
+    overflow-y: auto;
+  }
+
+  #page-text {
+    text-align: center;
+    display: flex;
+    justify-content: center;
     align-items: center;
+    flex-direction: column;
+  }
+}
+@media (max-width: 768px) {
+  .icon {
+    width: 30vw;
+  }
+  .widget-text {
+    font-size: 2.5vw;
+  }
+  #logo {
+    width: 200px;
+  }
+  #search-input {
+    height: 30%;
+  }
+  .book-info {
+    font-size: 0.7em;
+  }
+  .category{
+    font-size:0.7em;
+  }
+}
+@media (max-width: 520px) {
+  .icon {
+    width: 40vw;
+  }
+  .widget-text {
+    font-size: 2vw;
+  }
+  #book-month {
+    max-height: 30vh;
+    overflow-y: auto;
+  }
+  #search-input {
+    width: 10%;
+  }
+  #logo {
+    max-width: 80%;
+  }
+  .options li {
+    box-sizing: border-box;
     padding: 10px;
-
+  }
+}
+@media (max-width: 1085px) {
+  #head-option {
+    display: none;
+  }
+  #dropdown {
+    display: flex;
+    /* height: 120px; */
+    justify-content: center;
+    width: 100%;
+  }
 }
 
-.category{
-    background-color: lightsalmon;
-    margin: 5px;
-}
-
-h1{
-    display: inline;
-}
-
-.h_container{
-    display: inline;
-    justify-content: space-between;
-    align-items: center;
-    padding: 10px;
-    margin: 0px;
-    
-}
-
-.btn{
-    background: transparent;
-    border: none;
-    margin: 0px;
-    font-size: 25px;
-    outline: none;
-    color: grey;
-}
-
-.btn i:hover{
-    cursor: pointer;
+.filler {
+  height: 120px;
 }
