@@ -183,9 +183,9 @@ window.onload = function () {
             const markup = createBookMarkup(book);
             booksContainer.insertAdjacentHTML("beforeend", markup);
           });
+          window.scrollTo({ top: 700, behavior: "smooth" });
+          pageButtons.style.display = "none";
         }
-        window.scrollTo({ top: 700, behavior: "smooth" });
-        pageButtons.style.display = "none";
         favColor();
       });
 
