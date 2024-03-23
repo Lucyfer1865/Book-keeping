@@ -1,5 +1,5 @@
 const url =
-  "https://book-finder1.p.rapidapi.com/api/search?series=Wings%20of%20fire&book_type=Fiction&lexile_min=600&lexile_max=800&results_per_page=25&page=1";
+  "https://book-finder1.p.rapidapi.com/api/search?categories=Animals%2C%20Bugs%20%26%20Pets%3BArt%2C%20Creativity%20%26%20Music%3BGeneral%20Literature%3BHobbies%2C%20Sports%20%26%20Outdoors%3BScience%20Fiction%20%26%20Fantasy%3BReal%20Life%3BScience%20%26%20Technology%3BMystery%20%26%20Suspense%3BReference&results_per_page=100&page=1";
 const options = {
   method: "GET",
   headers: {
@@ -19,15 +19,15 @@ window.onload = function () {
       return response.json();
     })
     .then((data) => {
-
+      console.log(data.results);
       // -------------------------------------------Create Book Markup---------------------------------------------
       const createBookMarkup = (book) => {
         const categoriesButtons = book.categories
-          .map((category) => `<button class="category">${category}</button>`).join("");
+        .map((category) => `<button class="category">${category}</button>`).join("");
 
         return `
         <div class="book" id="book_${book.canonical_published_work_id}">
-          <img class = "book-cover" src="Images/book-cover.jpg" alt = "Book cover">
+          <img class = "book-cover" src="${book.published_works[0].cover_art_url}" alt = "Book cover">
           <div class="book-info">
             <h2 class="text">${book.title}</h2>
             <h3 class="text">By <a class="author" href="https://www.google.com/search?q=${book.authors}" target="_blank">${book.authors}</a></h3>
@@ -35,11 +35,14 @@ window.onload = function () {
             <p class="categories text"><strong>CATEGORIES:</strong> ${categoriesButtons}</p>
           </div>
           <div class="btn-containers">
+            <div class="i_container">
+              <button onclick="ViewModal(${book.canonical_published_work_id})" title="Info" class="info-btn"><i class="fas fa-info"></i></button>
+            </div>
             <div class="h_container">
-              <button onclick="Toggle(${book.canonical_published_work_id})" id="${book.canonical_published_work_id}" class="like-btn"><i class="fas fa-heart"></i></button>
+              <button onclick="Toggle(${book.canonical_published_work_id})" title="Bookmark" id="${book.canonical_published_work_id}" class="like-btn"><i class="fas fa-bookmark"></i></button>
             </div>
             <div class="b_container">
-              <a class="buy-btn" href="https://www.amazon.in/s?k=${book.title} ${book.series_name}" target="_blank">Buy</a>
+              <a class="buy-btn" href="https://www.amazon.in/s?k=${book.title} ${book.series_name}" title="Buy" target="_blank">Buy</a>
             </div>
           </div>
         </div>`;
@@ -63,10 +66,11 @@ window.onload = function () {
           const markup = createBookMarkup(book);
           booksContainer.insertAdjacentHTML("beforeend", markup);
         });
+        const pageNumber = document.querySelector("#page-number");
+        pageNumber.innerHTML = currentPage;
       }
       const pageButtons = document.querySelector(".page-btns");
 
-      // Add event listeners to the "Next" and "Previous" buttons
       document.querySelector("#next-btn").addEventListener("click", () => {
         if (currentPage * booksPerPage < data.results.length) {
           currentPage++;
@@ -84,13 +88,14 @@ window.onload = function () {
       });
 
       //--------------------------------------Initial Rendering-------------------------------------------------------------
-      
+      fav_id = [];
+
       let favourites = JSON.parse(localStorage.getItem("favourites")) || [];
       function favColor() {
-        favourites.forEach((id) => {
+        fav_id.forEach((id) => {
           const element = document.getElementById(id);
           if (element) {
-            element.style.color = "red";
+            element.style.color = "rgb(39, 174, 96)";
           }
         });
       }
@@ -105,6 +110,7 @@ window.onload = function () {
 
 
       //----------------------------(Home)-------------------------------
+      const page = document.querySelector(".page");
       const home = document.querySelectorAll(".home");
       const heading = document.querySelector("#heading");
       home.forEach((button) => {
@@ -115,6 +121,7 @@ window.onload = function () {
           window.scrollTo({ top: 0, behavior: "smooth" });
           favColor();
           pageButtons.style.display = "flex";
+          page.style.display = "flex";
         });
       });
 
@@ -126,9 +133,10 @@ window.onload = function () {
           heading.innerHTML = `<h1>Browse Books</h1>`;
           currentPage = 1;
           renderPage(data.results, currentPage, booksPerPage);
-          window.scrollTo({ top: 700, behavior: "smooth" });
+          window.scrollTo({ top, behavior: "smooth" });
           favColor();
           pageButtons.style.display = "flex";
+          page.style.display = "none";
         });
       });
 
@@ -138,34 +146,42 @@ window.onload = function () {
       liked.forEach((button) => {
         button.addEventListener("click", () => {
           booksContainer.innerHTML = ""; 
+          console.log(favourites);
           heading.innerHTML = `<h1>Favorite Books</h1>`;
           if (favourites.length === 0) {
             booksContainer.innerHTML =
               '<h2 class="empty">No favourite books yet :(</h2>';
           } else {
-            data.results.forEach((book) => {
-              if (favourites.includes(book.canonical_published_work_id)) {
-                const markup = createBookMarkup(book);
-                booksContainer.insertAdjacentHTML("beforeend", markup);
-              }
+            favourites.forEach((book) => {
+              
+              const markup = createBookMarkup(book);
+              booksContainer.insertAdjacentHTML("beforeend", markup);
+              
             });
           }
-          window.scrollTo({ top: 700, behavior: "smooth" });
-          favColor();
+          page.style.display = "none";
           pageButtons.style.display = "none";
+          window.scrollTo({ top, behavior: "smooth" });
+          favColor();
+          
         });
       });
 
       window.Toggle = function (id) {
         const element = document.getElementById(id);
-        if (element.style.color == "red") {
-          element.style.color = "#f0f0f0";
-          favourites = favourites.filter((fav) => fav !== id);
+        const book = data.results.find(book => book.canonical_published_work_id === id);
+        if (element.style.color === "rgb(39, 174, 96)") { 
+          element.style.color = "#f0f0f0"; 
+          favourites = favourites.filter((fav) => fav !== book);
+          fav_id = fav_id.filter((fav) => fav !== id);
         } else {
-          element.style.color = "red";
-          favourites.push(id);
+          element.style.color = "rgb(39, 174, 96)";
+          favourites.push(book);
+          fav_id.push(id);
         }
         localStorage.setItem("favourites", JSON.stringify(favourites));
+        localStorage.setItem("fav_id", JSON.stringify(fav_id));
+        
       };
 
       //----------------------------(category)-------------------------------
@@ -191,44 +207,75 @@ window.onload = function () {
 
       //----------------------------(Search)-------------------------------
 
-      searchInput.addEventListener("input", () => {
-        const searchQuery = searchInput.value.toLowerCase().trim();
-        const searchedBooks = data.results.filter(
-          (book) =>
-            book.title.toLowerCase().includes(searchQuery) ||
-            book.authors.join(" ").toLowerCase().includes(searchQuery) ||
-            book.categories.join(" ").toLowerCase().includes(searchQuery) ||
-            book.series_name.toLowerCase().includes(searchQuery)
-        );
-
-        booksContainer.innerHTML = ""; 
-        if (searchedBooks.length === 0) {
-          booksContainer.innerHTML = '<h2 class="empty">No books found :(</h2>';
-        } else {
-          currentPage = 1;
-          renderPage(searchedBooks, currentPage, booksPerPage);
-        }
-
-        favColor();
-      });
-
       searchInput.addEventListener("keydown", (event) => {
-        const searchQuery = searchInput.value.trim();
-        if (event.key === "Enter" && searchQuery) {
-          window.scrollTo({ top: 700, behavior: "smooth" });
+        if (event.key === "Enter") {
+          const searchQuery = searchInput.value.toLowerCase().trim();
+          heading.innerHTML = `<h1>Search Results</h1>`
+          if (searchQuery) {
+            const url = `https://book-finder1.p.rapidapi.com/api/search?title=${encodeURIComponent(searchQuery)}&results_per_page=100&page=1`;
+      
+            fetch(url, options)
+              .then((response) => {
+                if (!response.ok) {
+                  throw new Error(`HTTP error! status: ${response.status}`);
+                }
+                return response.json();
+              })
+              .then((newData) => {
+
+                booksContainer.innerHTML = ""; 
+
+                data.results = newData.results;
+      
+                if (data.results.length === 0) {
+                  booksContainer.innerHTML = '<h2 class="empty">No books found :(</h2>';
+                } else {
+                  currentPage = 1;
+                  renderPage(data.results, currentPage, booksPerPage);
+                }
+      
+                favColor();
+              })
+              .catch((error) => console.error("Error in fetching data:", error));
+      
+            window.scrollTo({ top: 700, behavior: "smooth" });
+          }
         }
       });
 
-      if (searchInput && pageButtons) {
-        searchInput.addEventListener("input", () => {
-          if (searchInput.value.trim() === "") {
-            pageButtons.style.display = "flex";
-          } else {
-            pageButtons.style.display = "none";
-          }
-        });
+      // -------------------------------(Modal)-----------------------------------
+
+      const modal = document.getElementById("myModal");
+      const modalBody = document.getElementById("modal-body");
+      const span = document.getElementsByClassName("close")[0];
+
+      window.ViewModal = function (id) {
+        const book = data.results.find(book => book.canonical_published_work_id === id);
+        modalBody.innerHTML = `
+          <div id="book_modal">
+            <img class = "book-cover" src="${book.published_works[0].cover_art_url}" alt = "Book cover">
+            <div class="book-info">
+              <h2 class="text">${book.title}</h2>
+              <h3 class="text">By <a class="author" href="https://www.google.com/search?q=${book.authors}" target="_blank">${book.authors}</a></h3>
+              <h3 class="text">SERIES: ${book.series_name}</h3> 
+            </div>
+          </div>
+          <div class="description">
+            <h2 class="text">Summary</h2>
+            <p class="text">${book.summary}</p>
+          </div>`;
+        modal.style.display = "block";
       }
 
+      span.onclick = function() {
+        modal.style.display = "none";
+      }
+
+      window.onclick = function(event) {
+        if (event.target == modal) {
+          modal.style.display = "none";
+        }
+      }
 
       //----------------------------(Email-Input)-------------------------------
 
@@ -243,10 +290,14 @@ window.onload = function () {
         const email = emailInput.value;
 
         if(emailRegex.test(email)){
-          confirm("Submitted");
+          emailInput.style.borderColor = "green";
+          
         }
-        else{
-          alert("Email is not valid");
+        else {
+          emailInput.style.borderColor = "red";
+          setTimeout(() => {
+            alert("Email is not valid");
+          }, 100);
         }
         emailInput.value = "";
       });
