@@ -216,7 +216,7 @@ header {
   border: 1px solid #888;
   width: 80%; 
   border-radius: 20px;
-  max-height: 90vh; 
+  max-height: 60vh; 
   overflow: auto; 
   margin: auto;
 }
@@ -233,6 +233,43 @@ header {
   color: black;
   text-decoration: none;
   cursor: pointer;
+}
+
+/* -----------------------Add Book-------------------------- */
+
+#add-book {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 300px;
+  margin: 0 auto;
+  padding: 20px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  background-color: #f8f8f8;
+}
+
+#add-book input, #add-book select, #add-book textarea {
+  width: 100%;
+  margin-bottom: 10px;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+}
+
+#add-book button {
+  width: 100%;
+  padding: 10px;
+  border: none;
+  border-radius: 5px;
+  background-color: #007BFF;
+  color: white;
+  cursor: pointer;
+}
+
+#add-book button:hover {
+  background-color: #0056b3;
 }
 
 /* ---------------------general book------------------------ */

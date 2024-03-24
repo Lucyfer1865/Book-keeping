@@ -88,9 +88,11 @@ window.onload = function () {
       });
 
       //--------------------------------------Initial Rendering-------------------------------------------------------------
-      fav_id = [];
-
+      let fav_id = JSON.parse(localStorage.getItem("fav_id"))||[];
       let favourites = JSON.parse(localStorage.getItem("favourites")) || [];
+      let myBooks = JSON.parse(localStorage.getItem("myBooks")) || [];
+      let myBook_ids = JSON.parse(localStorage.getItem("myBook_ids")) || [];
+      
       function favColor() {
         fav_id.forEach((id) => {
           const element = document.getElementById(id);
@@ -140,6 +142,34 @@ window.onload = function () {
         });
       });
 
+      // ----------------------------(My Books)-------------------------------
+
+      const myBook = document.querySelectorAll(".myBooks");
+
+      myBook.forEach((button) => {
+        button.addEventListener("click", () => {
+          booksContainer.innerHTML = ""; 
+          heading.innerHTML = `<h1>My Books</h1>`;
+          if (myBooks.length === 0) {
+            booksContainer.innerHTML =
+              '<h2 class="empty">No books yet :(</h2>';
+          } else {
+            myBooks.forEach((book) => {
+              if (book) {
+                const markup = createBookMarkup(book);
+                booksContainer.insertAdjacentHTML("beforeend", markup);
+              }
+            });
+          }
+          console.log(myBooks);
+          page.style.display = "none";
+          pageButtons.style.display = "none";
+          window.scrollTo({ top, behavior: "smooth" });
+          favColor();
+          
+        });
+      });    
+
       //----------------------------(Favourites)-------------------------------
 
       const liked = document.querySelectorAll(".liked");
@@ -169,7 +199,8 @@ window.onload = function () {
 
       window.Toggle = function (id) {
         const element = document.getElementById(id);
-        const book = data.results.find(book => book.canonical_published_work_id === id);
+        const combinedBooks = data.results.concat(myBooks);
+        const book = combinedBooks.find(book => book.canonical_published_work_id === id);
         if (element.style.color === "rgb(39, 174, 96)") { 
           element.style.color = "#f0f0f0"; 
           favourites = favourites.filter((fav) => fav !== book);
@@ -181,7 +212,6 @@ window.onload = function () {
         }
         localStorage.setItem("favourites", JSON.stringify(favourites));
         localStorage.setItem("fav_id", JSON.stringify(fav_id));
-        
       };
 
       //----------------------------(category)-------------------------------
@@ -250,7 +280,9 @@ window.onload = function () {
       const span = document.getElementsByClassName("close")[0];
 
       window.ViewModal = function (id) {
-        const book = data.results.find(book => book.canonical_published_work_id === id);
+        const combinedBooks = data.results.concat(myBooks);
+        const book = combinedBooks.find(book => book.canonical_published_work_id === id);
+        const summary = book.summary === "" ? "N/A" : book.summary;
         modalBody.innerHTML = `
           <div id="book_modal">
             <img class = "book-cover" src="${book.published_works[0].cover_art_url}" alt = "Book cover">
@@ -262,7 +294,7 @@ window.onload = function () {
           </div>
           <div class="description">
             <h2 class="text">Summary</h2>
-            <p class="text">${book.summary}</p>
+            <p class="text">${summary}</p>
           </div>`;
         modal.style.display = "block";
       }
@@ -276,6 +308,58 @@ window.onload = function () {
           modal.style.display = "none";
         }
       }
+
+      // ---------------------------(Add Book)--------------------------------
+
+
+      window.addBook = function () {
+        modalBody.innerHTML = `
+          <div id="add-book">
+            <input type="text" id="title" placeholder="Title" required>
+            <input type="text" id="author" placeholder="Author" required>
+            <input type="number" id="id" placeholder="ID" required>
+            <select id="add-category" name="category" required>
+              <option value="">Select a category</option>
+              <option value="Animals, Bugs & Pets">Animals, Bugs & Pets</option>
+              <option value="Art, Creativity & Music">Art, Creativity & Music</option>
+              <option value="General Literature">General Literature</option>
+              <option value="Hobbies, Sports & Outdoors">Hobbies, Sports & Outdoors</option>
+              <option value="Science Fiction & Fantasy">Science Fiction & Fantasy</option>
+              <option value="Real Life">Real Life</option>
+              <option value="Science & Technology">Science & Technology</option>
+              <option value="Mystery & Suspense">Mystery & Suspense</option>
+              <option value="Reference">Reference</option>
+            <textarea id="summary" placeholder="Summary" required></textarea>
+            <button id="add-book-btn">Add Book</button>
+          </div>`;
+        modal.style.display = "block";
+
+
+        document.getElementById('add-book-btn').addEventListener('click', function(event) {
+          event.preventDefault();
+          let book = {
+            canonical_published_work_id: Number(document.getElementById('id').value),
+            title: document.getElementById('title').value,
+            authors: [document.getElementById('author').value],
+            published_works: [{
+              cover_art_url: "https://s3.amazonaws.com/mm-static-media/books/cover-art/fiction_nonfiction_poetry.png",
+            }],
+            categories: [document.getElementById('add-category').value],
+            summary: document.getElementById('summary').value
+          };
+          myBooks.push(book);
+          myBook_ids.push(book.canonical_published_work_id);
+          localStorage.setItem("myBooks", JSON.stringify(myBooks));
+          localStorage.setItem("myBook_ids", JSON.stringify(myBook_ids));
+          modal.style.display = "none";
+        });
+      }
+      document.querySelector('.add').addEventListener('click', addBook);
+      document.querySelector('body').addEventListener('click', function(event) {
+        if (event.target.classList.contains('add')) {
+          addBook();
+        }
+      });
 
       //----------------------------(Email-Input)-------------------------------
 
